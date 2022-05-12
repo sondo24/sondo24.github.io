@@ -6,7 +6,7 @@
             this.advisors_carousel();
             this.moon_fit_menu();
             this.moon_fit_load();
-            // this.countUp();
+            this.countUp();
         },
 
         moon_fit_menu: function (){
@@ -97,12 +97,46 @@
             }
         },
 
-        // countUp: function (){
-        //     $('.counter').counterUp({
-        //         delay: 10,
-        //         time: 2000
-        //     });
-        // }
+        countUp: function (){
+            // console.log('abccccccccc');
+            // $('.counter').counterUp({
+            //     delay: 10,
+            //     time: 2000
+            // });
+
+//             const { counterUp } = window.counterUp
+//             const el = document.querySelector( '.counter' )
+// console.log('ellll:', el)
+// // Start counting, typically you need to call this when the
+// // element becomes visible, or whenever you like.
+//             counterUp( el, {
+//                 duration: 5000,
+//                 delay: 16,
+//             } )
+
+            const counterUp = window.counterUp.default
+
+            const callback = entries => {
+                entries.forEach( entry => {
+                    const el = entry.target
+                    if ( entry.isIntersecting && ! el.classList.contains( 'is-visible' ) ) {
+                        counterUp( el, {
+                            duration: 2000000,
+                            delay: 50,
+                        } )
+                        el.classList.add( 'is-visible' )
+                    }
+                } )
+            }
+
+            const IO = new IntersectionObserver( callback, { threshold: 1 } )
+
+            const el = document.querySelectorAll( '.counter' )
+
+            for (var i = 0; i < el.length; i++) {
+                IO.observe( el[i] )
+            }
+        }
     }
 
     $(document).on('click', '.menu-mobile-effect', function(e) {
